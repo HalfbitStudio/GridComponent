@@ -1,0 +1,20 @@
+﻿@typeparam GridItem
+@inherits GridColumn<GridItem>
+
+@code {
+
+        [Parameter] public Dictionary<string, string> Value { get; set; }
+
+        public GridColumnComboBox()
+        {
+            this.Filter =@<div class="input-group">
+            <select class="form-control" @onchange="OnFilter">
+                <option></option>
+                @foreach (var val in Value)
+                {
+                    <option value=@val.Key>@val.Value</option>
+                }
+            </select>
+</div>;
+    }
+}

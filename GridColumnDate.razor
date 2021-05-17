@@ -1,0 +1,12 @@
+﻿@typeparam GridItem
+@inherits GridColumn<GridItem>
+
+@code {
+
+    public GridColumnDate()
+    {
+        this.Filter =@<div class="input-group">
+        <input type="date" class="form-control" @onchange="OnFilter" />
+        </div>;
+  }
+}

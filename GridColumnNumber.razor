@@ -1,0 +1,12 @@
+﻿@typeparam GridItem
+@inherits GridColumn<GridItem>
+
+@code {
+
+    public GridColumnNumber()
+    {
+        this.Filter =@<div class="input-group">
+        <input type="number" class="form-control" @onchange="OnFilter" />
+        </div>;
+  }
+}

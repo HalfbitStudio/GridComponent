@@ -1,7 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
+    <LangVersion>10</LangVersion>
+    <Authors>HalfbitGridComponent</Authors>
+    <PackageProjectUrl>https://halfbitstudio.com</PackageProjectUrl>
   </PropertyGroup>
 
   

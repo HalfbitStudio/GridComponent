@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GridComponent", "GridComponent.csproj", "{FC8559BC-5E57-4FB8-B9C5-29C32256C6FD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GridComponent", "HaflbitGrid\GridComponent.csproj", "{D7431AEF-A11D-43CF-9D54-771D226F280A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examples", "Examples\Examples.csproj", "{E576E86E-2ECD-4654-BC84-ED942629963D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -8,9 +10,13 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{FC8559BC-5E57-4FB8-B9C5-29C32256C6FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FC8559BC-5E57-4FB8-B9C5-29C32256C6FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FC8559BC-5E57-4FB8-B9C5-29C32256C6FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FC8559BC-5E57-4FB8-B9C5-29C32256C6FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7431AEF-A11D-43CF-9D54-771D226F280A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7431AEF-A11D-43CF-9D54-771D226F280A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7431AEF-A11D-43CF-9D54-771D226F280A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7431AEF-A11D-43CF-9D54-771D226F280A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E576E86E-2ECD-4654-BC84-ED942629963D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E576E86E-2ECD-4654-BC84-ED942629963D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E576E86E-2ECD-4654-BC84-ED942629963D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E576E86E-2ECD-4654-BC84-ED942629963D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

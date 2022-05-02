@@ -1,0 +1,47 @@
+﻿@page "/ClientSideGrid"
+@using Examples.Models
+@using GridComponent
+@using GridComponent.Events
+@using Examples.Fixtures
+
+
+@if (data != null)
+{
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <h1>Basic Example - Server Side Pagination</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <HalfbitGrid Items="data" GridMode="GridMode.ClientSide" PageSize="pageSize"  DisplayFilters="true" >
+                    <GridColumns>
+                        <GridColumn GridItem="SampleData" Title="Id">
+                            <RowTemplate>@context.Id</RowTemplate>
+                        </GridColumn>
+                        <GridColumnText GridItem="SampleData" Title="Nazwa" Field="Name">
+                            <RowTemplate>@context.Name</RowTemplate>
+                        </GridColumnText>
+                    </GridColumns>
+                </HalfbitGrid>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    static int pageSize = 10;
+    int currPage = 0;
+
+    private List<SampleData> data;
+
+ 
+    protected override async Task OnInitializedAsync()
+    {
+        data = Fixture.GenerateData(pageSize, 10).SelectMany(d => d.Content).ToList();
+    }
+    
+    
+
+}

@@ -1,0 +1,72 @@
+﻿@page "/ServerSidePagination"
+@using Examples.Models
+@using GridComponent
+@using GridComponent.Events
+@using Examples.Fixtures
+
+
+@if (GridData != null)
+{
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <h1>Basic Example - Server Side Grid</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <HalfbitGrid Items="GridData.Content" PageSize="pageSize" PagesTotalCount="numberOfPages" DisplayFilters="true"
+                             OnPageChanged="OnPageChanged" OnSort="OnGridSort"
+                             OnFilter="OnGridFilter" CurrentPage="@currPage">
+                    <GridColumns>
+                        <GridColumn GridItem="SampleData" Title="Id">
+                            <RowTemplate>@context.Id</RowTemplate>
+                        </GridColumn>
+                        <GridColumnText GridItem="SampleData" Title="Nazwa" Field="Name">
+                            <RowTemplate>@context.Name</RowTemplate>
+                        </GridColumnText>
+                    </GridColumns>
+                    <GridFooter>
+                        <PaginationControl CurrentPage="@(GridData.Page + 1)" PagesCount="@numberOfPages"
+                                           TotalRecords="@GridData.TotalCount">
+                        </PaginationControl>
+                    </GridFooter>
+                </HalfbitGrid>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    static int pageSize = 10;
+    int currPage = 0;
+    static int numberOfPages = 10;
+    Dictionary<string, string> gridFilters = new Dictionary<string, string>();
+
+    private List<SampleDataPage> pages;
+    private SampleDataPage GridData;
+
+    private async Task OnGridFilter(GridFilterEventArgs args)
+    {
+        //call backend to filter data
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        pages = Fixture.GenerateData(pageSize, numberOfPages);
+        GridData = pages.FirstOrDefault();
+    }
+
+    private async Task OnPageChanged(PageChangedEventArgs eventArgs)
+    {
+        //call backend to get next page
+        this.currPage = eventArgs.PageNumber;
+        this.GridData = this.pages[eventArgs.PageNumber];
+    }
+
+    private async Task OnGridSort(SortEventArgs eventArgs)
+    {
+        //call backend to sort
+    }
+
+}

@@ -5,7 +5,7 @@
     @GridColumns
 </CascadingValue>
 
-<div class="row mt-2 @Class">
+<div class="row @Class">
     <div class="col-12 table-responsive">
         <table class="table">
             <thead>
@@ -37,7 +37,7 @@
                 }
             </thead>
             <tbody>
-                @foreach (var item in Items)
+                @foreach (var item in GridMode == GridMode.ServerSide ? Items : Items.Skip(PageSize*currPage).Take(PageSize))
                 {
                     <tr>
                         @foreach (var column in Columns)

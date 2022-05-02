@@ -2,6 +2,7 @@
 using GridComponent.Utils;
 using Microsoft.AspNetCore.Components;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace GridComponent
@@ -35,6 +36,8 @@ namespace GridComponent
 
         [Parameter]
         public RenderFragment GridColumns { get; set; }
+
+        [Parameter] public GridMode GridMode { get; set; } = GridMode.ServerSide;
         internal List<GridColumn<GridItem>> Columns { get; set; } = new List<GridColumn<GridItem>>();
 
 
@@ -102,5 +105,21 @@ namespace GridComponent
 
             await OnFilter.InvokeAsync(new GridFilterEventArgs() { Filters = dict });
         }
+
+        protected override void OnParametersSet()
+        {
+            if (GridMode == GridMode.ServerSide)
+                return;
+
+            if (Items != null)
+            {
+                PagesTotalCount = ((int)Items.Count() / PageSize);
+            }
+            else
+            {
+                PagesTotalCount = 0;
+            }
+        }
+
     }
 }

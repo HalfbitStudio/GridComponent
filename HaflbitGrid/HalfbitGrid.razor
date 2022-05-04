@@ -30,7 +30,10 @@
                         @foreach (var column in Columns)
                         {
                             <td>
-                                @column.Filter
+                                @if (column.DisplayFilter)
+                                {
+                                    @column.Filter
+                                }
                             </td>
                         }
                     </tr>

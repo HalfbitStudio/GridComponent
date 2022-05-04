@@ -25,8 +25,7 @@ namespace GridComponent
         [Parameter]
         public string Class { get; set; }
 
-        [Parameter] 
-        public bool DisplayFilters { get; set; }
+        [Parameter] public bool DisplayFilters { get; set; } = true;
 
         [Parameter]
         public int CurrentPage { get { return currPage; } set { SetPage(value); } }

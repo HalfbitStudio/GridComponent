@@ -2,15 +2,15 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
         <id>HalfbitStudio.Blazor.GridComponent</id>
-        <version>1.0.0</version>
+        <version>1.2.0</version>
         <authors>Halfbit Studio</authors>
         <owners>Halfbit Studio</owners>
-        <projectUrl>http://github.com/contoso/UsefulStuff</projectUrl>
+        <projectUrl>https://www.halfbitstudio.com</projectUrl>
         <license type="expression">MIT</license>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <releaseNotes></releaseNotes>
         <description>Grid component with filtering/sorting/pagiantion on server side. </description>
-        <tags>blazor web asp</tags>
+        <tags>Blazor,webassembly,grid component</tags>
 
         <dependencies>
             <dependency id="Microsoft.AspNetCore.Components.Web" version="5.0.0" />

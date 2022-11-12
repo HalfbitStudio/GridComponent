@@ -1,126 +1,123 @@
 ﻿@using Microsoft.AspNetCore.Components;
-@typeparam GridItem
+@typeparam TGridItem
 
 <CascadingValue Value="@this">
     @GridColumns
 </CascadingValue>
 
-<div class="row @Class">
-    <div class="col-12 table-responsive">
-        <table class="table">
-            <thead>
-                <tr>
-                    @foreach (var column in Columns)
-                    {
-                        <th @onclick='(() => SortGrid(column.Field))' width="@column.Width">
-                            @column.Title
-                            @if (!string.IsNullOrEmpty(sortBy) && column.Field == sortBy)
-                            {
-                                @if (sortOrder == Utils.SortOrder.Ascending)
-                                {<span style="padding-left: 6px; font-weight: bold">↑</span>}
-                                @if (sortOrder == Utils.SortOrder.Descending)
-                                {<span style="padding-left: 6px; font-weight: bold">↓</span>}
-                            }
-                        </th>
-                    }
-                </tr>
-                @if (this.DisplayFilters)
-                {
-                    <tr>
-                        @foreach (var column in Columns)
-                        {
-                            <td>
-                                @if (column.DisplayFilter)
-                                {
-                                    @column.Filter
-                                }
-                            </td>
-                        }
-                    </tr>
-                }
-            </thead>
-            <tbody>
-                @foreach (var item in GridMode == GridMode.ServerSide ? Items : Items.Skip(PageSize*currPage).Take(PageSize))
-                {
-                    <tr>
-                        @foreach (var column in Columns)
-                        {
-                            if (column.RowTemplate == null)
-                            {
-                                var value = @item.GetType().GetProperty(column.Field).GetValue(item);
-                                <td>
-                                    @value
-                                </td>
 
-                            }
-                            else
-                            {
-                                <td>
-                                    @column.RowTemplate(item)
-                                </td>
-                            }
-                        }
-                    </tr>
+<table class="@CssTableClass">
+    <thead>
+    <tr class="@CssRowClass">
+        @foreach (var column in Columns)
+        {
+            <th class="@CssColumnClass" @onclick='(() => SortGrid(column.Field))' width="@column.Width">
+                @column.Title
+                @if (!string.IsNullOrEmpty(sortBy) && column.Field == sortBy)
+                {
+                    @if (sortOrder == Utils.SortOrder.Ascending)
+                    {
+                        <span style="padding-left: 6px; font-weight: bold">↑</span>
+                    }
+                    @if (sortOrder == Utils.SortOrder.Descending)
+                    {
+                        <span style="padding-left: 6px; font-weight: bold">↓</span>
+                    }
                 }
-            </tbody>
-        </table>
-    </div>
+            </th>
+        }
+    </tr>
+    @if (this.DisplayFilters)
+    {
+        <tr class="@CssRowClass">
+            @foreach (var column in Columns)
+            {
+                <td class="@CssColumnClass">
+                    @if (column.DisplayFilter)
+                    {
+                        @column.Filter
+                    }
+                </td>
+            }
+        </tr>
+    }
+    </thead>
+    <tbody>
+    @foreach (var item in GridMode == GridMode.ServerSide ? Items : Items.Skip(PageSize * currPage).Take(PageSize))
+    {
+        <tr class="@CssRowClass">
+            @foreach (var column in Columns)
+            {
+                if (column.RowTemplate == null)
+                {
+                    var value = @item.GetType().GetProperty(column.Field).GetValue(item);
+                    <td class="@CssColumnClass">
+                        @value
+                    </td>
+                }
+                else
+                {
+                    <td class="@CssColumnClass">
+                        @column.RowTemplate(item)
+                    </td>
+                }
+            }
+        </tr>
+    }
+    </tbody>
+</table>
+<div class="@CssFooterClass">
+    @GridFooter
 </div>
-<div class="row">
-    <div class="col-4"></div>
-    <div class="col-4 text-center">
-        @GridFooter
-    </div>
-    <div class="col-4">
-        <nav>
-            <ul class="pagination float-right">
-                <li class="page-item" @onclick="() => setCurrPage(currPage - 1)">
-                    <a class="page-link">
-                        <span aria-hidden="true">&laquo;</span>
-                    </a>
-                </li>
+<div class="@CssPaginationContainerClass">
+    <nav>
+        <ul class="pagination">
+            <li class="page-item" @onclick="() => setCurrPage(currPage - 1)">
+                <a class="page-link">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
 
-                @for (int i = 0; i < PagesTotalCount; i++)
+            @for (int i = 0; i < PagesTotalCount; i++)
+            {
+                var temp = i;
+                if (i < NumberOfBreadCrubs)
                 {
-                    var temp = i;
-                    if (i < NumberOfBreadCrubs)
+                    <li class="page-item @(currPage == i ? "active" : "")" @onclick="() => setCurrPage(temp)">
+                        <a class="page-link">@(i + 1)</a>
+                    </li>
+                }
+                else if (i > PagesTotalCount - NumberOfBreadCrubs - 1)
+                {
+                    <li class="page-item @(currPage == i ? "active" : "")" @onclick="() => setCurrPage(temp)">
+                        <a class="page-link">@(i + 1)</a>
+                    </li>
+                }
+                else
+                {
+                    if (i > currPage - NumberOfBreadCrubs && i < currPage + NumberOfBreadCrubs ||
+                        (currPage < NumberOfBreadCrubs * 2 && i < NumberOfBreadCrubs * 3 - 1) ||
+                        (currPage >= PagesTotalCount - NumberOfBreadCrubs * 2 && i > PagesTotalCount - NumberOfBreadCrubs * 3))
                     {
                         <li class="page-item @(currPage == i ? "active" : "")" @onclick="() => setCurrPage(temp)">
                             <a class="page-link">@(i + 1)</a>
-                        </li>
-                    }
-                    else if (i > PagesTotalCount - NumberOfBreadCrubs - 1)
-                    {
-                        <li class="page-item @(currPage == i ? "active" : "")" @onclick="() => setCurrPage(temp)">
-                            <a class="page-link">@(i + 1)</a>
-                        </li>
-                    }
-                    else
-                    {
-                        if (i > currPage - NumberOfBreadCrubs && i < currPage + NumberOfBreadCrubs ||
-                            (currPage < NumberOfBreadCrubs * 2 && i < NumberOfBreadCrubs * 3 - 1) ||
-                            (currPage >= PagesTotalCount - NumberOfBreadCrubs * 2 && i > PagesTotalCount - NumberOfBreadCrubs * 3))
-                        {
-                            <li class="page-item @(currPage == i ? "active" : "")" @onclick="() => setCurrPage(temp)">
-                                <a class="page-link">@(i + 1)</a>
-                            </li>
-                        }
-                    }
-
-
-                    if ((i == NumberOfBreadCrubs - 1 && currPage >= NumberOfBreadCrubs * 2) || (i == PagesTotalCount - NumberOfBreadCrubs - 1 && currPage <= PagesTotalCount - NumberOfBreadCrubs * 2 && i > NumberOfBreadCrubs * 2))
-                    {
-                        <li class="page-item">
-                            <a class="page-link">...</a>
                         </li>
                     }
                 }
-                <li class="page-item" @onclick="() => setCurrPage(currPage + 1)">
-                    <a class="page-link">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-    </div>
+
+
+                if ((i == NumberOfBreadCrubs - 1 && currPage >= NumberOfBreadCrubs * 2) || (i == PagesTotalCount - NumberOfBreadCrubs - 1 && currPage <= PagesTotalCount - NumberOfBreadCrubs * 2 && i > NumberOfBreadCrubs * 2))
+                {
+                    <li class="page-item">
+                        <a class="page-link">...</a>
+                    </li>
+                }
+            }
+            <li class="page-item" @onclick="() => setCurrPage(currPage + 1)">
+                <a class="page-link">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
 </div>

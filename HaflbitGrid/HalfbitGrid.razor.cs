@@ -7,43 +7,46 @@ using System.Threading.Tasks;
 
 namespace GridComponent
 {
-    public partial class HalfbitGrid<GridItem>
+    public partial class HalfbitGrid<TGridItem>
     {
         int currPage = 0;
         int NumberOfBreadCrubs = 3;
         private SortOrder sortOrder;
         private string sortBy;
 
-        [Parameter]
-        public RenderFragment GridFooter { get; set; }
-        [Parameter]
-        public IEnumerable<GridItem> Items { get; set; }
-        [Parameter]
-        public int PageSize { get; set; }
-        [Parameter]
-        public int PagesTotalCount { get; set; }
-        [Parameter]
-        public string Class { get; set; }
+        [Parameter] public RenderFragment GridFooter { get; set; }
+        [Parameter] public IEnumerable<TGridItem> Items { get; set; }
+        [Parameter] public int PageSize { get; set; }
+        [Parameter] public int PagesTotalCount { get; set; }
 
-        [Parameter] public bool DisplayFilters { get; set; } = true;
+        
+        [Parameter] public string CssTableClass { get; set; } = "table";
+        [Parameter] public string CssRowClass { get; set; }
+        [Parameter] public string CssColumnClass { get; set; }
+        
+        [Parameter] public string CssFooterClass { get; set; }
+        
+        [Parameter] public string CssPaginationContainerClass { get; set; }
 
-        [Parameter]
-        public int CurrentPage { get { return currPage; } set { SetPage(value); } }
-
-        [Parameter]
-        public EventCallback<GridFilterEventArgs> OnFilter { get; set; }
+        [Parameter] public bool DisplayFilters { get; set; } = false;
 
         [Parameter]
-        public RenderFragment GridColumns { get; set; }
+        public int CurrentPage
+        {
+            get { return currPage; }
+            set { SetPage(value); }
+        }
+
+        [Parameter] public EventCallback<GridFilterEventArgs> OnFilter { get; set; }
+
+        [Parameter] public RenderFragment GridColumns { get; set; }
 
         [Parameter] public GridMode GridMode { get; set; } = GridMode.ServerSide;
-        internal List<GridColumn<GridItem>> Columns { get; set; } = new List<GridColumn<GridItem>>();
+        internal List<GridColumn<TGridItem>> Columns { get; set; } = new List<GridColumn<TGridItem>>();
 
 
-        [Parameter]
-        public EventCallback<PageChangedEventArgs> OnPageChanged { get; set; }
-        [Parameter]
-        public EventCallback<SortEventArgs> OnSort { get; set; }
+        [Parameter] public EventCallback<PageChangedEventArgs> OnPageChanged { get; set; }
+        [Parameter] public EventCallback<SortEventArgs> OnSort { get; set; }
 
         private async Task setCurrPage(int pageNr)
         {
@@ -61,7 +64,7 @@ namespace GridComponent
 
         public void SetPage(int pageNumber)
         {
-            if (pageNumber < 0 )
+            if (pageNumber < 0)
                 this.currPage = 0;
 
             if (pageNumber > PagesTotalCount - 1)
@@ -85,7 +88,8 @@ namespace GridComponent
             else
                 sortBy = columnName;
 
-            await OnSort.InvokeAsync(new SortEventArgs() { OrderByColumn = sortBy, IsAscending = sortOrder != SortOrder.Descending });
+            await OnSort.InvokeAsync(new SortEventArgs()
+                { OrderByColumn = sortBy, IsAscending = sortOrder != SortOrder.Descending });
         }
 
         internal void OnGridFilter(FilterChangedEventArgs args)
@@ -96,7 +100,7 @@ namespace GridComponent
         internal async void OnGridFilter()
         {
             var dict = new Dictionary<string, string>();
-            foreach(var column in Columns)
+            foreach (var column in Columns)
             {
                 if (!string.IsNullOrEmpty(column.Field) && !string.IsNullOrEmpty(column.FilterValue))
                     dict.Add(column.Field, column.FilterValue);
@@ -105,7 +109,7 @@ namespace GridComponent
             await OnFilter.InvokeAsync(new GridFilterEventArgs() { Filters = dict });
         }
 
-        protected override void OnParametersSet()
+        protected override async Task OnParametersSetAsync()
         {
             if (GridMode == GridMode.ServerSide)
                 return;
@@ -119,6 +123,5 @@ namespace GridComponent
                 PagesTotalCount = 0;
             }
         }
-
     }
 }

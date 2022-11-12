@@ -10,7 +10,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
-                <h1>Basic Example - Server Side Pagination</h1>
+                <h1>Basic Example - Client Side Pagination</h1>
             </div>
         </div>
         <div class="row">
@@ -22,6 +22,11 @@
                         </GridColumn>
                         <GridColumnText DisplayFilter="true" GridItem="SampleData" Title="Nazwa" Field="Name">
                             <RowTemplate>@context.Name</RowTemplate>
+                        </GridColumnText>
+                        <GridColumnText DisplayFilter="true" GridItem="SampleData" Title="Aktywne" Field="Active">
+                            <RowTemplate>
+                                @context.Active
+                            </RowTemplate>
                         </GridColumnText>
                     </GridColumns>
                 </HalfbitGrid>

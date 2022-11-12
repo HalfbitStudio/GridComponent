@@ -37,7 +37,7 @@ public static class Fixture
             {
                 page.Content.Add(new SampleData
                 {
-                    Id = rnd.Next(0,int.MaxValue),
+                    Id = rnd.Next(0,200),
                     Active = rnd.Next(0,1) > 0,
                     Name = CreateRandomWordNumberCombination()
                 });

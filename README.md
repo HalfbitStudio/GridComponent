@@ -4,10 +4,11 @@ This component is only for Blazor Web Assembly.
 
 
 ##  Features
-* Server Side Pagination
-* Server Side Sorting
-* Server Side Filtering
+* Server Side/Client Side Pagination
+* Server Side/Client Side Sorting
+* Server Side/Client Side Filtering
 * Support custom column theming
+* Support for .NET 6 / .NET 5
 ## Basic usage
 
 Install from nuget
@@ -75,6 +76,6 @@ In page code behind implement:
 
 If you need commercial support please contact us.
 
-* Halfbit Studio Team<contact@halfbitstudio.com>
+* Halfbit Studio Team <contact@halfbitstudio.com>
 
 
